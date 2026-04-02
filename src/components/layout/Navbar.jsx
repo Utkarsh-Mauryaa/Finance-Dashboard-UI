@@ -4,9 +4,13 @@ import { HiMoon } from "react-icons/hi2";
 import { Drawer } from "@mui/material";
 import Sidebar from "../specific/Sidebar"; // adjust path if needed
 import { format } from "date-fns";
+import { useDispatch } from "react-redux";
+import { setIsAdmin } from "../../redux/reducer/slice";
 
 export default function Navbar() {
+
   const [isMobile, setIsMobile] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -48,10 +52,10 @@ export default function Navbar() {
 
           {/* Role pill switcher */}
           <div className="flex items-center gap-[3px] p-[3px] rounded-[10px] border bg-[#141e35] border-[#1e2d4a]">
-            <button className="px-4 py-[5px] rounded-[7px] text-[11px] font-bold uppercase tracking-[0.07em] cursor-pointer bg-[#00d4ff] text-black shadow-[0_2px_10px_rgba(0,212,255,0.3)] transition-all duration-150">
+            <button onClick={() => dispatch(setIsAdmin(false))} className="px-4 py-[5px] rounded-[7px] text-[11px] font-bold uppercase tracking-[0.07em] cursor-pointer bg-[#00d4ff] text-black shadow-[0_2px_10px_rgba(0,212,255,0.3)] transition-all duration-150">
               Viewer
             </button>
-            <button className="px-4 py-[5px] rounded-[7px] text-[11px] font-bold uppercase tracking-[0.07em] cursor-pointer bg-transparent text-[#8899b4] hover:bg-[rgba(255,163,26,0.1)] hover:text-[#ffa31a] transition-all duration-150">
+            <button onClick={() => dispatch(setIsAdmin(true))} className="px-4 py-[5px] rounded-[7px] text-[11px] font-bold uppercase tracking-[0.07em] cursor-pointer bg-transparent text-[#8899b4] hover:bg-[rgba(255,163,26,0.1)] hover:text-[#ffa31a] transition-all duration-150">
               Admin
             </button>
           </div>

@@ -27,26 +27,21 @@ const lineChartOptions = {
     legend: { display: false },
     title: { display: false },
     tooltip: {
-      backgroundColor: '#13161e',
-      borderColor: '#1e2330',
+      backgroundColor: "#13161e",
+      borderColor: "#1e2330",
       borderWidth: 1,
-      titleColor: '#e8eaf0',
-      bodyColor: '#8890a8',
-      titleFont: { family: 'Syne', weight: '700' },
-      bodyFont: { family: 'DM Mono' },
+      titleColor: "#e8eaf0",
+      bodyColor: "#8890a8",
+      titleFont: { family: "Syne", weight: "700" },
+      bodyFont: { family: "DM Mono" },
       padding: 10,
       cornerRadius: 8,
-      // --- Added Tooltip Callback ---
       callbacks: {
         label: function (context) {
-          let label = context.dataset.label || '';
-          if (label) {
-            label += ': ';
-          }
-          if (context.parsed.y !== null) {
-            // Formats the hover value with ₹ and Indian numbering
-            label += '₹' + context.parsed.y.toLocaleString('en-IN');
-          }
+          let label = context.dataset.label || "";
+          if (label) label += ": ";
+          if (context.parsed.y !== null)
+            label += "₹" + context.parsed.y.toLocaleString("en-IN");
           return label;
         },
       },
@@ -55,25 +50,22 @@ const lineChartOptions = {
   scales: {
     x: {
       grid: { display: false },
-      border: { color: '#1e2330' },
-      ticks: {
-        color: '#5a607a',
-        font: { family: 'DM Mono', size: 11 },
-      },
+      border: { color: "#1e2330" },
+      ticks: { color: "#5a607a", font: { family: "DM Mono", size: 11 } },
     },
     y: {
-      grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+      grid: { color: "rgba(255,255,255,0.04)", drawBorder: false },
       border: { display: false },
       min: 0,
-      max: 100000, 
+      max: 100000,
       ticks: {
-        color: '#5a607a',
-        font: { family: 'DM Mono', size: 11 },
-        stepSize: 25000, 
+        color: "#5a607a",
+        font: { family: "DM Mono", size: 11 },
+        stepSize: 25000,
         callback: function (value) {
-          if (value === 0) return '₹0';
-          if (value === 100000) return '1.0L';
-          return (value / 1000).toFixed(1) + 'k';
+          if (value === 0) return "₹0";
+          if (value === 100000) return "1.0L";
+          return (value / 1000).toFixed(1) + "k";
         },
       },
     },
@@ -123,21 +115,23 @@ const LineChart = ({ income = [], expense = [] }) => {
 
 const doughnutChartOptions = {
   responsive: true,
+  maintainAspectRatio: true,
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: '#13161e',
-      borderColor: '#1e2330',
+      backgroundColor: "#13161e",
+      borderColor: "#1e2330",
       borderWidth: 1,
-      titleColor: '#e8eaf0',
-      bodyColor: '#8890a8',
-      titleFont: { family: 'Syne', weight: '700' },
-      bodyFont: { family: 'DM Mono' },
+      titleColor: "#e8eaf0",
+      bodyColor: "#8890a8",
+      titleFont: { family: "Syne", weight: "700" },
+      bodyFont: { family: "DM Mono" },
       padding: 10,
       cornerRadius: 8,
     },
   },
-  cutout: 110,
+  // "60%" = chunky ring. The old value of 110px was making it razor thin
+  cutout: "76%",
 };
 
 const DoughnutChart = ({ value = [], labels = [] }) => {
@@ -146,21 +140,36 @@ const DoughnutChart = ({ value = [], labels = [] }) => {
     datasets: [
       {
         data: value,
-        backgroundColor: ["rgba(248, 245, 101, 0.95)", "rgba(0, 68, 255, 0.8)", "rgba(248, 43, 255, 0.8)", "rgba(244, 18, 18, 0.8)", "rgba(42, 250, 23, 0.8)", "rgba(220, 120, 5, 0.8)"],
-        borderColor: ["rgba(248, 245, 101, 0.95)", "rgba(0, 68, 255, 0.8)", "rgba(248, 43, 255, 0.8)", "rgba(244, 18, 18, 0.8)", "rgba(42, 250, 23, 0.8)", "rgba(220, 120, 5, 0.8)"],
+        backgroundColor: [
+          "rgba(248, 245, 101, 0.95)",
+          "rgba(0, 68, 255, 0.8)",
+          "rgba(248, 43, 255, 0.8)",
+          "rgba(244, 18, 18, 0.8)",
+          "rgba(42, 250, 23, 0.8)",
+          "rgba(220, 120, 5, 0.8)",
+        ],
+        borderColor: [
+          "rgba(248, 245, 101, 0.95)",
+          "rgba(0, 68, 255, 0.8)",
+          "rgba(248, 43, 255, 0.8)",
+          "rgba(244, 18, 18, 0.8)",
+          "rgba(42, 250, 23, 0.8)",
+          "rgba(220, 120, 5, 0.8)",
+        ],
         borderWidth: 2,
         hoverOffset: 6,
-        offset: 12,
-        hoverBackgroundColor: ["rgba(248, 247, 189, 0.95)", "rgba(111, 150, 255, 0.8)", "rgba(252, 164, 255, 0.8)", "rgba(255, 118, 118, 0.8)", "rgba(169, 255, 161, 0.8)", "rgba(255, 174, 81, 0.8)"],
+        hoverBackgroundColor: [
+          "rgba(248, 247, 189, 0.95)",
+          "rgba(111, 150, 255, 0.8)",
+          "rgba(252, 164, 255, 0.8)",
+          "rgba(255, 118, 118, 0.8)",
+          "rgba(169, 255, 161, 0.8)",
+          "rgba(255, 174, 81, 0.8)",
+        ],
       },
     ],
   };
-  return (
-    <div style={{ width: '100%', maxWidth: 280, margin: '0 auto' }} className="flex">
-      <div className="">Spendings Breakdown</div>
-      <Doughnut data={data} options={doughnutChartOptions} />
-    </div>
-  );
+  return <Doughnut data={data} options={doughnutChartOptions} />;
 };
 
 export { DoughnutChart, LineChart };
