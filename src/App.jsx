@@ -1,4 +1,3 @@
-import Layout from "./components/layout/Layout"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
