@@ -119,7 +119,7 @@ export const globalStyles = `
   ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
   /* ── Form components ────────────────────────────────────────────────────── */
-  .howdy-input {
+  .zorvyn-input {
     width: 100%;
     background: var(--surface2);
     border: 1px solid var(--border-light);
@@ -131,13 +131,13 @@ export const globalStyles = `
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     font-family: 'Roboto Mono', monospace;
   }
-  .howdy-input::placeholder { color: var(--text-muted); }
-  .howdy-input:focus {
+  .zorvyn-input::placeholder { color: var(--text-muted); }
+  .zorvyn-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
-  .howdy-label {
+  .zorvyn-label {
     font-size: 12px;
     color: var(--text-dim);
     font-family: 'Roboto Mono', monospace;
@@ -148,7 +148,7 @@ export const globalStyles = `
   }
 
   /* ── Buttons ────────────────────────────────────────────────────────────── */
-  .howdy-btn {
+  .zorvyn-btn {
     background: var(--accent);
     color: var(--bg);
     border: none;
@@ -162,14 +162,14 @@ export const globalStyles = `
     letter-spacing: 0.3px;
     white-space: nowrap;
   }
-  .howdy-btn:hover {
+  .zorvyn-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent);
   }
-  .howdy-btn:active  { transform: translateY(0); }
-  .howdy-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .zorvyn-btn:active  { transform: translateY(0); }
+  .zorvyn-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
 
-  .howdy-btn-outline {
+  .zorvyn-btn-outline {
     background: transparent;
     color: var(--text);
     border: 1px solid var(--border-light);
@@ -181,14 +181,14 @@ export const globalStyles = `
     font-family: 'Roboto', sans-serif;
     transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
   }
-  .howdy-btn-outline:hover {
+  .zorvyn-btn-outline:hover {
     border-color: var(--accent);
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 6%, transparent);
     transform: translateY(-1px);
   }
 
-  .howdy-btn-danger {
+  .zorvyn-btn-danger {
     background: transparent;
     color: var(--accent-rose);
     border: 1px solid color-mix(in srgb, var(--accent-rose) 30%, transparent);
@@ -200,13 +200,13 @@ export const globalStyles = `
     font-family: 'Roboto', sans-serif;
     transition: background 0.2s, transform 0.15s;
   }
-  .howdy-btn-danger:hover {
+  .zorvyn-btn-danger:hover {
     background: color-mix(in srgb, var(--accent-rose) 10%, transparent);
     transform: translateY(-1px);
   }
 
   /* ── Cards ──────────────────────────────────────────────────────────────── */
-  .howdy-card {
+  .zorvyn-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
@@ -214,10 +214,10 @@ export const globalStyles = `
     box-shadow: var(--shadow-card);
     transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
   }
-  .howdy-card:hover { box-shadow: var(--shadow-hover); }
+  .zorvyn-card:hover { box-shadow: var(--shadow-hover); }
 
   /* ── Error text ─────────────────────────────────────────────────────────── */
-  .howdy-err {
+  .zorvyn-err {
     color: var(--accent-rose);
     font-size: 12px;
     margin-top: 4px;
