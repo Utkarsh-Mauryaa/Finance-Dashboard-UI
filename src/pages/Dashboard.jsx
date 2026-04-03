@@ -1,25 +1,13 @@
-import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { BiSolidMessageSquareDetail } from "react-icons/bi";
-import { IoMdNotifications } from "react-icons/io";
-import { MdAdminPanelSettings, MdGroups } from "react-icons/md";
+import { MdGroups } from "react-icons/md";
 import { LayoutLoaderDashboard } from "../components/layout/Loaders";
 import { DoughnutChart, LineChart } from "../components/specific/Charts";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import ActionCard from "../components/specific/ActionCard";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { expense, income } from "../utils/sampleData";
-import { BREAKDOWN } from "../utils/sampleData";
-
-const cardStyle = {
-  background: "#13161e",
-  border: "1px solid #1e2330",
-  borderRadius: 16,
-  padding: 20,
-  boxShadow: "none",
-};
-
+import { expense, income, BREAKDOWN } from "../utils/sampleData";
 
 const total = BREAKDOWN.reduce((s, i) => s + i.value, 0);
 
@@ -34,25 +22,23 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  },[])
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
 
   const ActionCards = (
-    <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 8 }}>
+    <div className="flex gap-4 flex-wrap mt-2">
       {[
         { title: "Net Balance",    value: fmt(101000), icon: <BsCurrencyDollar />,          color: "#63dcbe" },
         { title: "Total Income",   value: fmt(200000), icon: <MdGroups />,                  color: "#e05c7a" },
         { title: "Total Expenses", value: fmt(100000), icon: <BiSolidMessageSquareDetail />, color: "#a78bfa" },
-        { title: "Total Expenses", value: fmt(100000), icon: <BiSolidMessageSquareDetail />, color: "#a78bfa" },
+        { title: "Savings",        value: fmt(101000), icon: <BsCurrencyDollar />,          color: "#ffa31a" },
       ].map((w, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ flex: "1 1 200px", minWidth: 180 }}
+          className="flex-[1_1_200px] min-w-[180px]"
         >
           <ActionCard {...w} />
         </motion.div>
@@ -64,109 +50,65 @@ const Dashboard = () => {
     <LayoutLoaderDashboard />
   ) : (
     <Layout>
-      <div style={{ maxWidth: 1200 }}>
+      <div className="max-w-[1200px]">
 
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 24 }}>
+        <div className="flex gap-5 flex-wrap mb-6">
 
-          {/* ── Line chart card ── */}
+          {/* Line chart card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            style={{ ...cardStyle, flex: "1 1 400px", minWidth: 0, height: 350 }}
+            className="
+              flex-[1_1_400px] min-w-0 h-[350px]
+              bg-light-surface dark:bg-dark-surface
+              border border-light-border dark:border-dark-border
+              rounded-2xl p-5
+              transition-colors duration-300
+            "
           >
-            <p style={{
-              color: "#8890a8", fontFamily: "'DM Mono',monospace",
-              fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12,
-            }}>
+            <p className="text-light-subtle dark:text-dark-subtle font-['DM_Mono'] text-[12px] uppercase tracking-[0.08em] mb-3">
               Balance Trend
             </p>
             <LineChart income={income} expense={expense} />
           </motion.div>
 
-          {/* ── Doughnut card ── */}
+          {/* Doughnut card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            style={{
-              ...cardStyle,
-              flex: "1 1 340px",
-              minWidth: 0,
-              height: 350,
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",       // nothing escapes the card
-            }}
+            className="
+              flex-[1_1_340px] min-w-0 h-[350px]
+              flex flex-col overflow-hidden
+              bg-light-surface dark:bg-dark-surface
+              border border-light-border dark:border-dark-border
+              rounded-2xl p-5
+              transition-colors duration-300
+            "
           >
-            {/* heading */}
-            <p style={{
-              color: "#8890a8", fontFamily: "'DM Mono', monospace",
-              fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em",
-              marginBottom: 16, flexShrink: 0,
-            }}>
+            <p className="text-light-subtle dark:text-dark-subtle font-['DM_Mono'] text-[12px] uppercase tracking-[0.08em] mb-4 shrink-0">
               Spending Breakdown
             </p>
 
-            {/* body: legend left, chart right */}
-            <div style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              gap: 20,
-              minHeight: 0,           // lets flex children shrink inside fixed-height parent
-            }}>
+            <div className="flex-1 flex items-center gap-5 min-h-0">
 
-              {/* LEFT — legend rows */}
-              <div style={{
-                flex: 1,
-                minWidth: 0,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                gap: 2,
-              }}>
+              {/* Legend */}
+              <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
                 {BREAKDOWN.map((item) => {
                   const pct = Math.round((item.value / total) * 100);
                   return (
                     <div
                       key={item.label}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        padding: "6px 0",
-                        borderBottom: "1px solid #1e2330",
-                        width:"70%"
-                      }}
+                      className="flex items-center gap-2.5 py-1.5 w-[70%]"
+                      style={{ borderBottom: "1px solid var(--border-color)" }}
                     >
-                      {/* color swatch */}
-                      <span style={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: 3,
-                        background: item.color,
-                        flexShrink: 0,
-                      }} />
-
-                      {/* label */}
-                      <span style={{
-                        flex: 1,
-                        color: "#c8cedd",
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: 12,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}>
+                      <span
+                        className="w-2.5 h-2.5 rounded-[3px] shrink-0"
+                        style={{ background: item.color }}
+                      />
+                      <span className="flex-1 text-light-text dark:text-dark-text font-['DM_Sans'] text-[12px] truncate">
                         {item.label}
                       </span>
-
-                      {/* percentage */}
-                      <span style={{
-                        color: "#5a607a",
-                        fontFamily: "'DM Mono', monospace",
-                        fontSize: 11,
-                        flexShrink: 0,
-                      }}>
+                      <span className="text-light-subtle dark:text-dark-subtle font-['DM_Mono'] text-[11px] shrink-0">
                         {pct}%
                       </span>
                     </div>
@@ -174,20 +116,13 @@ const Dashboard = () => {
                 })}
               </div>
 
-              <div style={{
-                width: 190,
-                height: 190,
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
+              {/* Doughnut */}
+              <div className="w-[190px] h-[190px] shrink-0 flex items-center justify-center">
                 <DoughnutChart
                   labels={BREAKDOWN.map((i) => i.label)}
                   value={BREAKDOWN.map((i) => i.value)}
                 />
               </div>
-
             </div>
           </motion.div>
 

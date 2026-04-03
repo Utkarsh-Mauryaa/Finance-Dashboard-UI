@@ -1,18 +1,15 @@
 const InsightCard = ({ icon, label, value, sub, color, glow }) => {
   return (
     <div
-      style={{
-        background: "#13161e",
-        border: "1px solid #1e2330",
-        borderRadius: 16,
-        padding: "20px 22px",
-        flex: "1 1 220px",
-        minWidth: 200,
-        position: "relative",
-        overflow: "hidden",
-        transition: "box-shadow 0.2s, transform 0.2s",
-        cursor: "default",
-      }}
+      className="
+        relative overflow-hidden
+        bg-light-surface dark:bg-dark-surface
+        border border-light-border dark:border-dark-border
+        rounded-2xl px-[22px] py-5
+        flex-1 basis-[220px] min-w-[200px]
+        cursor-default
+        transition-all duration-200
+      "
       onMouseEnter={(e) => {
         e.currentTarget.style.boxShadow = `0 4px 24px ${glow}`;
         e.currentTarget.style.transform = "translateY(-2px)";
@@ -22,59 +19,44 @@ const InsightCard = ({ icon, label, value, sub, color, glow }) => {
         e.currentTarget.style.transform = "none";
       }}
     >
-      {/* top accent line */}
-      <div style={{
-        position: "absolute",
-        top: 0, left: 0, right: 0,
-        height: 3,
-        background: `linear-gradient(90deg, ${color}, transparent)`,
-      }} />
+      {/* Top accent line */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
+      />
 
-      {/* icon badge */}
-      <div style={{
-        width: 36, height: 36, borderRadius: 10,
-        background: glow,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18, marginBottom: 14,
-      }}>
+      {/* Icon badge */}
+      <div
+        className="w-9 h-9 rounded-[10px] flex items-center justify-center text-[18px] mb-[14px]"
+        style={{ background: glow }}
+      >
         {icon}
       </div>
 
-      {/* label */}
-      <p style={{
-        margin: 0,
-        fontSize: 11,
-        fontWeight: 700,
-        color: "#5a607a",
-        fontFamily: "'DM Mono', monospace",
-        textTransform: "uppercase",
-        letterSpacing: "0.07em",
-        marginBottom: 6,
-      }}>
+      {/* Label */}
+      <p className="
+        m-0 mb-1.5
+        text-[11px] font-bold uppercase tracking-[0.07em]
+        text-light-subtle dark:text-dark-subtle
+        font-['DM_Mono']
+      ">
         {label}
       </p>
 
-      {/* main value */}
-      <p style={{
-        margin: 0,
-        fontSize: 22,
-        fontWeight: 800,
-        color: color,
-        fontFamily: "'Syne', sans-serif",
-        lineHeight: 1.1,
-        marginBottom: 6,
-      }}>
+      {/* Main value */}
+      <p
+        className="m-0 mb-1.5 text-[22px] font-extrabold leading-[1.1] font-['Syne']"
+        style={{ color }}
+      >
         {value}
       </p>
 
-      {/* sub text */}
-      <p style={{
-        margin: 0,
-        fontSize: 12,
-        color: "#5a607a",
-        fontFamily: "'DM Mono', monospace",
-        lineHeight: 1.5,
-      }}>
+      {/* Sub text */}
+      <p className="
+        m-0 text-[12px] leading-relaxed
+        text-light-subtle dark:text-dark-subtle
+        font-['DM_Mono']
+      ">
         {sub}
       </p>
     </div>

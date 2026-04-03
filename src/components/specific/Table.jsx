@@ -1,23 +1,21 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { GlobalStyles } from "@mui/material";
 
-const menuStyles = (
+// Portal-rendered elements (column menus, filter panels) are children of <body>,
+// which is a child of <html>. Since Layout now puts .dark on <html>, these
+// portals correctly inherit dark CSS variables — no hardcoded hex needed.
+const PortalStyles = () => (
   <GlobalStyles styles={{
-    ".MuiDataGrid-menuList": {
-      background: "#1a1e28 !important",
-      padding: "4px !important",
-    },
-    ".MuiDataGrid-menuList.MuiList-root": {
-      background: "#1a1e28 !important",
-    },
+    ".MuiDataGrid-menuList": { background: "var(--surface2) !important", padding: "4px !important" },
+    ".MuiDataGrid-menuList.MuiList-root": { background: "var(--surface2) !important" },
     "div[role='tooltip'] .MuiPaper-root, div[role='presentation'] .MuiPaper-root": {
-      background: "#1a1e28",
-      border: "1px solid #1e2330",
+      background: "var(--surface2)",
+      border: "1px solid var(--border)",
       borderRadius: "10px",
-      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+      boxShadow: "var(--shadow-modal)",
     },
     ".MuiDataGrid-menuList .MuiMenuItem-root": {
-      color: "#e8eaf0 !important",
+      color: "var(--text) !important",
       fontFamily: "'Syne', sans-serif !important",
       fontSize: "13px !important",
       borderRadius: "6px !important",
@@ -25,175 +23,92 @@ const menuStyles = (
       padding: "8px 12px !important",
     },
     ".MuiDataGrid-menuList .MuiMenuItem-root:hover": {
-      background: "rgba(99, 220, 190, 0.08) !important",
-      color: "#63dcbe !important",
+      background: "color-mix(in srgb, var(--accent) 8%, transparent) !important",
+      color: "var(--accent) !important",
     },
-    ".MuiDataGrid-menuList .MuiMenuItem-root .MuiListItemIcon-root": {
-      color: "#5a607a !important",
-      minWidth: "32px !important",
-    },
-    ".MuiDataGrid-menuList .MuiMenuItem-root:hover .MuiListItemIcon-root": {
-      color: "#63dcbe !important",
-    },
-    ".MuiDataGrid-menuList .MuiDivider-root": {
-      borderColor: "#1e2330 !important",
-      margin: "4px 0 !important",
-    },
+    ".MuiDataGrid-menuList .MuiMenuItem-root .MuiListItemIcon-root": { color: "var(--text-muted) !important", minWidth: "32px !important" },
+    ".MuiDataGrid-menuList .MuiMenuItem-root:hover .MuiListItemIcon-root": { color: "var(--accent) !important" },
+    ".MuiDataGrid-menuList .MuiDivider-root": { borderColor: "var(--border) !important", margin: "4px 0 !important" },
     ".MuiDataGrid-paper": {
-      background: "#1a1e28 !important",
-      border: "1px solid #1e2330 !important",
+      background: "var(--surface2) !important",
+      border: "1px solid var(--border) !important",
       borderRadius: "12px !important",
-      boxShadow: "0 8px 32px rgba(0,0,0,0.5) !important",
-      color: "#e8eaf0 !important",
+      boxShadow: "var(--shadow-modal) !important",
+      color: "var(--text) !important",
     },
-    ".MuiDataGrid-panelContent": { background: "#1a1e28 !important" },
-    ".MuiDataGrid-panelHeader": {
-      background: "#1a1e28 !important",
-      borderBottom: "1px solid #1e2330 !important",
-      paddingBottom: "8px !important",
-    },
-    ".MuiDataGrid-panelFooter": {
-      background: "#1a1e28 !important",
-      borderTop: "1px solid #1e2330 !important",
-    },
-    ".MuiDataGrid-paper .MuiFormLabel-root, .MuiDataGrid-paper .MuiInputLabel-root": {
-      color: "#8890a8 !important",
-      fontFamily: "'DM Mono', monospace !important",
-      fontSize: "12px !important",
-    },
-    ".MuiDataGrid-paper .MuiTypography-root": {
-      color: "#e8eaf0 !important",
-      fontFamily: "'Syne', sans-serif !important",
-    },
-    ".MuiDataGrid-paper .MuiInputBase-root": {
-      color: "#e8eaf0 !important",
-      fontFamily: "'DM Mono', monospace !important",
-      fontSize: "13px !important",
-    },
-    ".MuiDataGrid-paper .MuiInput-underline:before": { borderBottomColor: "#1e2330 !important" },
-    ".MuiDataGrid-paper .MuiInput-underline:hover:before": { borderBottomColor: "#63dcbe !important" },
-    ".MuiDataGrid-paper .MuiInput-underline:after": { borderBottomColor: "#63dcbe !important" },
-    ".MuiDataGrid-paper .MuiSvgIcon-root": { color: "#5a607a !important" },
-    ".MuiDataGrid-paper .MuiNativeSelect-select, .MuiDataGrid-paper .MuiSelect-select": {
-      color: "#e8eaf0 !important",
-      fontFamily: "'DM Mono', monospace !important",
-      fontSize: "13px !important",
-    },
-    ".MuiDataGrid-paper .MuiCheckbox-root": { color: "#5a607a !important" },
-    ".MuiDataGrid-paper .MuiCheckbox-root.Mui-checked": { color: "#63dcbe !important" },
-    ".MuiDataGrid-paper .MuiSwitch-switchBase.Mui-checked": { color: "#63dcbe !important" },
-    ".MuiDataGrid-paper .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "#63dcbe !important" },
-    ".MuiDataGrid-paper .MuiButton-root": {
-      color: "#63dcbe !important",
-      fontFamily: "'Syne', sans-serif !important",
-      fontSize: "12px !important",
-    },
-    ".MuiDataGrid-paper .MuiButton-root:hover": { background: "rgba(99, 220, 190, 0.08) !important" },
+    ".MuiDataGrid-panelContent":  { background: "var(--surface2) !important" },
+    ".MuiDataGrid-panelHeader":   { background: "var(--surface2) !important", borderBottom: "1px solid var(--border) !important", paddingBottom: "8px !important" },
+    ".MuiDataGrid-panelFooter":   { background: "var(--surface2) !important", borderTop: "1px solid var(--border) !important" },
+    ".MuiDataGrid-paper .MuiFormLabel-root, .MuiDataGrid-paper .MuiInputLabel-root": { color: "var(--text-dim) !important", fontFamily: "'DM Mono', monospace !important", fontSize: "12px !important" },
+    ".MuiDataGrid-paper .MuiTypography-root":  { color: "var(--text) !important", fontFamily: "'Syne', sans-serif !important" },
+    ".MuiDataGrid-paper .MuiInputBase-root":   { color: "var(--text) !important", fontFamily: "'DM Mono', monospace !important", fontSize: "13px !important" },
+    ".MuiDataGrid-paper .MuiInput-underline:before":       { borderBottomColor: "var(--border) !important" },
+    ".MuiDataGrid-paper .MuiInput-underline:hover:before": { borderBottomColor: "var(--accent) !important" },
+    ".MuiDataGrid-paper .MuiInput-underline:after":        { borderBottomColor: "var(--accent) !important" },
+    ".MuiDataGrid-paper .MuiSvgIcon-root":   { color: "var(--text-muted) !important" },
+    ".MuiDataGrid-paper .MuiNativeSelect-select, .MuiDataGrid-paper .MuiSelect-select": { color: "var(--text) !important", fontFamily: "'DM Mono', monospace !important", fontSize: "13px !important" },
+    ".MuiDataGrid-paper .MuiCheckbox-root":               { color: "var(--text-muted) !important" },
+    ".MuiDataGrid-paper .MuiCheckbox-root.Mui-checked":   { color: "var(--accent) !important" },
+    ".MuiDataGrid-paper .MuiSwitch-switchBase.Mui-checked": { color: "var(--accent) !important" },
+    ".MuiDataGrid-paper .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "var(--accent) !important" },
+    ".MuiDataGrid-paper .MuiButton-root":       { color: "var(--accent) !important", fontFamily: "'Syne', sans-serif !important", fontSize: "12px !important" },
+    ".MuiDataGrid-paper .MuiButton-root:hover": { background: "color-mix(in srgb, var(--accent) 8%, transparent) !important" },
   }} />
 );
 
-// processRowUpdate is the only new prop — everything else unchanged
-const Table = ({ rows, columns, heading, rowHeight = 52, processRowUpdate }) => {
-  return (
-    <div>
-      {menuStyles}
+const Table = ({ rows, columns, heading, rowHeight = 52, processRowUpdate }) => (
+  <div>
+    <PortalStyles />
 
-      <div style={{ marginBottom: 20 }}>
-        <h2 style={{
-          color: "#e8eaf0",
-          fontFamily: "'Syne', sans-serif",
-          fontWeight: 800,
-          fontSize: 22,
-          margin: 0,
-        }}>
-          {heading}
-        </h2>
-        <p style={{
-          color: "#5a607a",
-          fontFamily: "'DM Mono', monospace",
-          fontSize: 12,
-          marginTop: 4,
-        }}>
-          {rows.length} record{rows.length !== 1 ? "s" : ""}
-        </p>
-      </div>
-
-      <div style={{
-        background: "#13161e",
-        border: "1px solid #1e2330",
-        borderRadius: 16,
-        overflow: "hidden",
-        height: 560,
-      }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          rowHeight={rowHeight}
-          // fires when admin finishes editing a cell — bubbles up to Transactions.jsx
-          processRowUpdate={processRowUpdate}
-          // silently swallow any processRowUpdate errors so DataGrid doesn't crash
-          onProcessRowUpdateError={(err) => console.error("Row update error:", err)}
-          sx={{
-            border: "none",
-            color: "#e8eaf0",
-            fontFamily: "'Syne', sans-serif",
-            background: "transparent",
-            "& .MuiDataGrid-columnHeaders": {
-              background: "#1a1e28",
-              borderBottom: "1px solid #1e2330",
-            },
-            "& .MuiDataGrid-columnHeader": { background: "#1a1e28" },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              color: "#8890a8",
-              fontFamily: "'Syne', sans-serif",
-              fontWeight: 700,
-              fontSize: 12,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-            },
-            "& .MuiDataGrid-columnSeparator": { display: "none" },
-            "& .MuiDataGrid-row": {
-              borderBottom: "1px solid rgba(255,255,255,0.04)",
-              "&:hover": { background: "rgba(99,220,190,0.04)" },
-              "&.Mui-selected": {
-                background: "rgba(99,220,190,0.08)",
-                "&:hover": { background: "rgba(99,220,190,0.1)" },
-              },
-            },
-            "& .MuiDataGrid-cell": {
-              color: "#e8eaf0",
-              borderBottom: "none",
-              fontFamily: "'Syne', sans-serif",
-              fontSize: 13,
-            },
-            "& .MuiDataGrid-cell:focus":        { outline: "none" },
-            "& .MuiDataGrid-cell:focus-within": { outline: "none" },
-            "& .MuiDataGrid-footerContainer": {
-              background: "#1a1e28",
-              borderTop: "1px solid #1e2330",
-            },
-            "& .MuiTablePagination-root": {
-              color: "#5a607a",
-              fontFamily: "'DM Mono', monospace",
-              fontSize: 12,
-            },
-            "& .MuiTablePagination-actions button":       { color: "#8890a8" },
-            "& .MuiTablePagination-actions button:hover": { color: "#63dcbe" },
-            "& .MuiCheckbox-root":          { color: "#5a607a" },
-            "& .MuiDataGrid-scrollbar":     { scrollbarColor: "#1e2330 transparent" },
-            "& .MuiDataGrid-filler":        { background: "#1a1e28" },
-            "& .MuiDataGrid-filler > div":  { borderTop: "none" },
-            "& .table-header": {
-              background: "#1a1e28",
-              color: "#8890a8",
-              fontFamily: "'Syne', sans-serif",
-              fontWeight: 700,
-            },
-          }}
-        />
-      </div>
+    <div style={{ marginBottom: 20 }}>
+      <h2 style={{ color: "var(--text)", fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 22, margin: 0 }}>
+        {heading}
+      </h2>
+      <p style={{ color: "var(--text-muted)", fontFamily: "'DM Mono', monospace", fontSize: 12, marginTop: 4 }}>
+        {rows.length} record{rows.length !== 1 ? "s" : ""}
+      </p>
     </div>
-  );
-};
+
+    <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 16, overflow: "hidden", height: 560 }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        rowHeight={rowHeight}
+        processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={(err) => console.error("Row update error:", err)}
+        sx={{
+          border: "none",
+          color: "var(--text)",
+          fontFamily: "'Syne', sans-serif",
+          background: "transparent",
+          "& .MuiDataGrid-columnHeaders":    { background: "var(--surface2)", borderBottom: "1px solid var(--border)" },
+          "& .MuiDataGrid-columnHeader":     { background: "var(--surface2)" },
+          "& .MuiDataGrid-columnHeaderTitle": { color: "var(--text-dim)", fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em" },
+          "& .MuiDataGrid-columnSeparator":  { display: "none" },
+          "& .MuiDataGrid-row": {
+            borderBottom: "1px solid var(--border-light)",
+            "&:hover":       { background: "color-mix(in srgb, var(--accent) 4%, transparent)" },
+            "&.Mui-selected": { background: "color-mix(in srgb, var(--accent) 8%, transparent)", "&:hover": { background: "color-mix(in srgb, var(--accent) 10%, transparent)" } },
+          },
+          "& .MuiDataGrid-cell":              { color: "var(--text)", borderBottom: "none", fontFamily: "'Syne', sans-serif", fontSize: 13 },
+          "& .MuiDataGrid-cell:focus":        { outline: "none" },
+          "& .MuiDataGrid-cell:focus-within": { outline: "none" },
+          "& .MuiDataGrid-footerContainer":   { background: "var(--surface2)", borderTop: "1px solid var(--border)" },
+          "& .MuiTablePagination-root":        { color: "var(--text-dim)", fontFamily: "'DM Mono', monospace", fontSize: 12 },
+          "& .MuiTablePagination-displayedRows": { color: "var(--text-dim)" },
+          "& .MuiTablePagination-selectLabel":   { color: "var(--text-dim)" },
+          "& .MuiTablePagination-actions button":       { color: "var(--text-dim)" },
+          "& .MuiTablePagination-actions button:hover": { color: "var(--accent)" },
+          "& .MuiCheckbox-root":         { color: "var(--text-muted)" },
+          "& .MuiCheckbox-root.Mui-checked": { color: "var(--accent)" },
+          "& .MuiDataGrid-scrollbar":    { scrollbarColor: "var(--border) transparent" },
+          "& .MuiDataGrid-filler":       { background: "var(--surface2)" },
+          "& .MuiDataGrid-filler > div": { borderTop: "none" },
+          "& .table-header":             { background: "var(--surface2)", color: "var(--text-dim)", fontFamily: "'Syne', sans-serif", fontWeight: 700 },
+        }}
+      />
+    </div>
+  </div>
+);
 
 export default Table;

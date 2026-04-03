@@ -1,23 +1,43 @@
-
-
 const ActionCard = ({ title, value, icon, color }) => (
-  <div style={{
-    background: "#13161e", border: "1px solid #1e2330", borderRadius: 16,
-    padding: "20px", display: "flex", alignItems: "center", gap: 16, height: 100,
-  }}>
-    <div style={{
-      width: 56, height: 56, borderRadius: 14, flexShrink: 0,
-      background: `${color}18`, border: `1px solid ${color}33`,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      fontSize: 22, color: color,
-    }}>
+  <div className="
+    bg-light-surface dark:bg-dark-surface
+    border border-light-border dark:border-dark-border
+    rounded-2xl p-5
+    flex items-center gap-4
+    h-[100px]
+    transition-colors duration-300
+    hover:border-light-hover dark:hover:border-dark-hover
+    group
+  ">
+    {/* Icon badge — dynamic color kept via inline style since it's runtime data */}
+    <div
+      className="w-14 h-14 rounded-[14px] shrink-0 flex items-center justify-center text-[22px] transition-transform duration-200 group-hover:scale-105"
+      style={{
+        background: `${color}18`,
+        border: `1px solid ${color}33`,
+        color: color,
+      }}
+    >
       {icon}
     </div>
+
     <div>
-      <p style={{ fontSize: 24, fontWeight: 800, color: "#e8eaf0", margin: 0, fontFamily: "'Syne',sans-serif", lineHeight: 1 }}>{value ?? "—"}</p>
-      <p style={{ fontSize: 12, color: "#5a607a", margin: "4px 0 0", fontFamily: "'DM Mono',monospace", textTransform: "uppercase", letterSpacing: "0.06em" }}>{title}</p>
+      <p className="
+        text-2xl font-extrabold m-0 leading-none
+        text-light-text dark:text-dark-text
+        font-['Syne']
+      ">
+        {value ?? "—"}
+      </p>
+      <p className="
+        text-[11px] mt-1 mb-0
+        text-light-subtle dark:text-dark-subtle
+        font-['DM_Mono'] uppercase tracking-[0.06em]
+      ">
+        {title}
+      </p>
     </div>
   </div>
 );
 
-export default ActionCard
+export default ActionCard;

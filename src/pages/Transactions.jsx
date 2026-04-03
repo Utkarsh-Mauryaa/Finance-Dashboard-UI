@@ -10,7 +10,6 @@ import { MdAdd } from "react-icons/md";
 
 const STORAGE_KEY = "fin_transactions";
 
-// Read from localStorage, fall back to sampleData if nothing stored yet
 const loadRows = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -20,7 +19,6 @@ const loadRows = () => {
   }
 };
 
-// Write to localStorage
 const saveRows = (rows) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
 };
@@ -32,81 +30,56 @@ const Transactions = () => {
 
   const isAdmin = useSelector((state) => state.adminCheck.isAdmin);
 
-  // On mount: load from localStorage (or sampleData as seed)
   useEffect(() => {
-    setTimeout(() => {
+    const t = setTimeout(() => {
       setRows(loadRows());
       setIsLoading(false);
     }, 1000);
+    return () => clearTimeout(t);
   }, []);
 
-  // Every time rows changes, persist to localStorage
   useEffect(() => {
     if (!isLoading) saveRows(rows);
   }, [rows, isLoading]);
 
-  // Called when admin edits a cell inline in the DataGrid
   const handleRowUpdate = (updatedRow) => {
-    setRows((prev) =>
-      prev.map((r) => (r.id === updatedRow.id ? updatedRow : r))
-    );
-    return updatedRow; // required by DataGrid's processRowUpdate contract
+    setRows((prev) => prev.map((r) => (r.id === updatedRow.id ? updatedRow : r)));
+    return updatedRow;
   };
 
-  // Called when AddTransactionDialog submits
   const handleAdd = (newTransaction) => {
     setRows((prev) => [newTransaction, ...prev]);
   };
 
   const columns = [
+    { field: "id",       headerName: "ID",       width: 200, headerClassName: "table-header" },
+    { field: "date",     headerName: "Date",     width: 200, headerClassName: "table-header" },
     {
-      field: "id",
-      headerName: "ID",
-      width: 200,
-      headerClassName: "table-header",
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 200,
-      headerClassName: "table-header",
-    },
-    {
-      field: "amount",
-      headerName: "Amount",
-      width: 150,
-      headerClassName: "table-header",
+      field: "amount", headerName: "Amount", width: 150, headerClassName: "table-header",
       editable: isAdmin,
       renderCell: (params) => (
-        <span style={{ color: "#e8eaf0", fontFamily: "'Syne',sans-serif", fontWeight: 600 }}>
+        <span className="text-light-text dark:text-dark-text font-['Syne'] font-semibold">
           {params.row.amount}
         </span>
       ),
     },
     {
-      field: "category",
-      headerName: "Category",
-      width: 200,
-      headerClassName: "table-header",
+      field: "category", headerName: "Category", width: 200, headerClassName: "table-header",
       editable: isAdmin,
       renderCell: (params) => (
-        <span style={{ color: "#e8eaf0", fontFamily: "'Syne',sans-serif", fontWeight: 600 }}>
+        <span className="text-light-text dark:text-dark-text font-['Syne'] font-semibold">
           {params.row.category}
         </span>
       ),
     },
     {
-      field: "type",
-      headerName: "Type",
-      width: 200,
-      headerClassName: "table-header",
+      field: "type", headerName: "Type", width: 200, headerClassName: "table-header",
       editable: isAdmin,
       renderCell: (params) => (
-        <span style={{
-          color: params.row.type === "Income" ? "#63dcbe" : "#e05c7a",
-          fontFamily: "'DM Mono',monospace",
-          fontSize: 13,
-        }}>
+        <span
+          className="font-['DM_Mono'] text-[13px] font-semibold"
+          style={{ color: params.row.type === "Income" ? "#63dcbe" : "#e05c7a" }}
+        >
           {params.row.type}
         </span>
       ),
@@ -123,27 +96,17 @@ const Transactions = () => {
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              style={{ marginBottom: 16 }}
+              className="mb-4"
             >
               <button
                 onClick={() => setDialogOpen(true)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "9px 18px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: "linear-gradient(135deg, #63dcbe, #3bb8f5)",
-                  color: "#0d0f14",
-                  cursor: "pointer",
-                  fontFamily: "'Syne', sans-serif",
-                  fontWeight: 800,
-                  fontSize: 13,
-                  transition: "opacity 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                className="
+                  flex items-center gap-2 px-[18px] py-[9px] rounded-[10px]
+                  border-none bg-gradient-to-r from-accent-green to-[#3bb8f5]
+                  text-dark-bg font-['Syne'] font-extrabold text-[13px]
+                  cursor-pointer transition-opacity duration-150
+                  hover:opacity-90
+                "
               >
                 <MdAdd size={18} />
                 Add Transaction
@@ -155,7 +118,7 @@ const Transactions = () => {
             heading="All Transactions"
             columns={columns}
             rows={rows}
-            processRowUpdate={handleRowUpdate}   // passes edit handler into DataGrid
+            processRowUpdate={handleRowUpdate}
           />
 
           <AddTransactionDialog
