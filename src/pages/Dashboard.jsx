@@ -1,22 +1,24 @@
 import { motion } from "framer-motion";
 import { BiSolidMessageSquareDetail } from "react-icons/bi";
 import { MdGroups } from "react-icons/md";
+import { BsCurrencyDollar } from "react-icons/bs";
+import { useEffect, useState } from "react";
 import { LayoutLoaderDashboard } from "../components/layout/Loaders";
 import { DoughnutChart, LineChart } from "../components/specific/Charts";
-import { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import ActionCard from "../components/specific/ActionCard";
-import { BsCurrencyDollar } from "react-icons/bs";
-import { expense, income, BREAKDOWN } from "../utils/sampleData";
+import { income, expense, BREAKDOWN, transactionData } from "../utils/sampleData";
+import { getTotalIncome, getTotalExpense, getSavings } from "../lib/features";
 
 const total = BREAKDOWN.reduce((s, i) => s + i.value, 0);
 
 const fmt = (n) =>
-  n.toLocaleString("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  });
+  n.toLocaleString("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+
+// Derived from transactionData — single source of truth
+const totalIncome  = getTotalIncome(transactionData);
+const totalExpense = getTotalExpense(transactionData);
+const savings      = getSavings(transactionData);
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,16 +27,38 @@ const Dashboard = () => {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
+  const actionCardData = [
+    {
+      title: "Total Income",
+      value: fmt(totalIncome),
+      icon: <MdGroups />,
+      color: "#63dcbe",
+      glow: "rgba(99,220,190,0.15)",
+      sub: "all income transactions",
+    },
+    {
+      title: "Total Expenses",
+      value: fmt(totalExpense),
+      icon: <BiSolidMessageSquareDetail />,
+      color: "#e05c7a",
+      glow: "rgba(224,92,122,0.15)",
+      sub: "all expense transactions",
+    },
+    {
+  title: "Savings",
+  value: (savings < 0 ? "−" : "") + fmt(Math.abs(savings)),  // ✅ manual sign
+  icon: <BsCurrencyDollar />,
+  color: savings >= 0 ? "#3bb8f5" : "#e05c7a",               // ✅ red if negative
+  glow: savings >= 0 ? "rgba(59,184,245,0.15)" : "rgba(224,92,122,0.15)",
+  sub: savings >= 0 ? "income minus expenses" : "expenses exceed income",
+},
+  ];
+
   const ActionCards = (
     <div className="flex gap-3 sm:gap-4 flex-wrap mt-2">
-      {[
-        { title: "Net Balance",    value: fmt(101000), icon: <BsCurrencyDollar />,          color: "#63dcbe" },
-        { title: "Total Income",   value: fmt(200000), icon: <MdGroups />,                  color: "#e05c7a" },
-        { title: "Total Expenses", value: fmt(100000), icon: <BiSolidMessageSquareDetail />, color: "#a78bfa" },
-        { title: "Savings",        value: fmt(101000), icon: <BsCurrencyDollar />,          color: "#ffa31a" },
-      ].map((w, i) => (
+      {actionCardData.map((w, i) => (
         <motion.div
-          key={i}
+          key={w.title}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
@@ -54,6 +78,7 @@ const Dashboard = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 mb-6">
 
+          {/* Line chart card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -71,7 +96,7 @@ const Dashboard = () => {
             <LineChart income={income} expense={expense} />
           </motion.div>
 
-          
+          {/* Doughnut card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -90,7 +115,7 @@ const Dashboard = () => {
 
             <div className="flex-1 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 min-h-0">
 
-              
+              {/* Legend */}
               <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5 w-full sm:w-auto">
                 {BREAKDOWN.map((item) => {
                   const pct = Math.round((item.value / total) * 100);
@@ -98,7 +123,7 @@ const Dashboard = () => {
                     <div
                       key={item.label}
                       className="flex items-center gap-2.5 py-1.5 w-full sm:w-[70%]"
-                      style={{ borderBottom: "1px solid var(--border-color)" }}
+                      style={{ borderBottom: "1px solid var(--border)" }}
                     >
                       <span
                         className="w-2.5 h-2.5 rounded-[3px] shrink-0"
@@ -115,7 +140,7 @@ const Dashboard = () => {
                 })}
               </div>
 
-              
+              {/* Chart */}
               <div className="w-[130px] h-[130px] sm:w-[190px] sm:h-[190px] shrink-0 flex items-center justify-center">
                 <DoughnutChart
                   labels={BREAKDOWN.map((i) => i.label)}
