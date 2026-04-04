@@ -1,12 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { MdOutlineExitToApp, MdDashboardCustomize, MdManageAccounts, MdGroups } from "react-icons/md";
+import { MdOutlineExitToApp, MdDashboardCustomize } from "react-icons/md";
 import { motion } from "framer-motion";
+import { CgInsights } from "react-icons/cg";
+import { TbTransactionRupee } from "react-icons/tb";
 
 const adminTabs = [
   { name: "Dashboard",    path: "/dashboard",    icon: <MdDashboardCustomize /> },
-  { name: "Transactions", path: "/transactions", icon: <MdManageAccounts /> },
-  { name: "Insights",     path: "/insights",     icon: <MdGroups /> },
+  { name: "Transactions", path: "/transactions", icon: <TbTransactionRupee /> },
+  { name: "Insights",     path: "/insights",     icon: <CgInsights className="text-[18px]"/> },
 ];
 
 const Sidebar = ({ onClose }) => {

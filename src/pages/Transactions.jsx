@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import { LayoutLoaderAdmin } from "../components/layout/Loaders";
 import Table from "../components/specific/Table";
 import Layout from "../components/layout/Layout";
-import { TRANSACTIONS } from "../utils/sampleData";
 import { useSelector } from "react-redux";
 import AddTransactionDialog from "../components/specific/AddTransactionDialog";
 import { motion } from "framer-motion";
 import { MdAdd } from "react-icons/md";
 import { Select, MenuItem } from "@mui/material";
+import { transactionData } from "../utils/sampleData";
 
 const STORAGE_KEY = "fin_transactions";
 
 const loadRows = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : TRANSACTIONS;
+    return stored ? JSON.parse(stored) : transactionData;
   } catch {
-    return TRANSACTIONS;
+    return transactionData;
   }
 };
 
@@ -54,7 +54,7 @@ const Transactions = () => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 200, headerClassName: "table-header" },
-    { field: "date", headerName: "Date", width: 200, headerClassName: "table-header" },
+    { field: "date", headerName: "Date(YYYY-MM-DD)", width: 200, headerClassName: "table-header" },
     {
       field: "amount", headerName: "Amount", width: 150, headerClassName: "table-header",
       editable: isAdmin,
@@ -94,7 +94,7 @@ const Transactions = () => {
               "& .MuiSvgIcon-root": { color: "var(--text-muted)" }
             }}
           >
-            {["Food", "Health", "Entertainment", "Shopping", "Utilities", "Transport"].map((opt) => (
+            {["Food & Dining", "Health", "Entertainment", "Shopping", "Utilities", "Transport"].map((opt) => (
               <MenuItem key={opt} value={opt}>{opt}</MenuItem>
             ))}
           </Select>
