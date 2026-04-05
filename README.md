@@ -184,7 +184,7 @@ Role persists across refreshes via Redux + localStorage.
   - Savings card color turns **red/pink** when expenses exceed income (negative savings)
   - The negative sign is explicitly displayed: e.g. `−₹12,000`
 
-### Transactions Page ![Dashboard Interface Preview](src/assets/TransactionsPage.png)
+### Transactions Page ![Dashboard Interface Preview](src/assets/TransactionLight.png)
 
 - Paginated DataGrid showing all transactions (ID, date, amount, category, type)
 - **Search** — filter rows by any field using the built-in toolbar search
