@@ -214,7 +214,9 @@ Role persists across refreshes via Redux + localStorage.
 
 ---
 
-## Key Design Decisions
+## Key Architecture Decisions
+
+Lazy Loading: I implemented React.lazy and Suspense to ensure pages like Dashboard, Transactions, and Insights only load when visited. This minimizes the initial bundle size, accelerates the "Time to Interactive," and follows modern SPA best practices for performance.
 
 **Separate Redux slices for theme and role** — keeping concerns separated makes each slice trivially testable and easy to extend (e.g. adding more roles or theme variants later).
 
