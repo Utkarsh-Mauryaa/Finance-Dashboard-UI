@@ -188,6 +188,7 @@ Role persists across refreshes via Redux + localStorage.
 
 - Paginated DataGrid showing all transactions (ID, date, amount, category, type)
 - **Search** — filter rows by any field using the built-in toolbar search
+- **Sorting** — sort data either in ascending or descending order
 - **Advanced filtering** — column-level filters with condition operators (contains, equals, greater than, etc.)
 - **Grouping** — group rows by category or type
 - **Export** — download all transactions as a CSV file
