@@ -116,7 +116,7 @@ This deliberately mirrors the pattern of a real app:
 
 Two pieces of global state are managed via Redux Toolkit:
 
-**Why Redux and not `useState`?** Both the role and theme need to be accessible across every page and component simultaneously. Prop-drilling this deep would be fragile and hard to maintain. Redux provides a single source of truth that any component can read or update.
+**Why Redux and not `useState` for role and admin?** Both the role and theme need to be accessible across every page and component simultaneously. Prop-drilling this deep would be fragile and hard to maintain. Redux provides a single source of truth that any component can read or update. For localized data, I relied on useState to keep component-level state encapsulated and the global store clean.
 
 ```
 redux/
@@ -177,14 +177,14 @@ Role persists across refreshes via Redux + localStorage.
 
 ### Dashboard Page ![Dashboard Interface Preview](src/assets/DashboardPage.png)
 
-- **Balance Trend** — Line chart showing income vs expense over the last 6 months. Income line is teal, expense is red.
-- **Spending Breakdown** — Doughnut chart with category-wise expenditure. Each segment shows its percentage of total spend in the legend.
+- **Balance Trend(time based visualization)** — Line chart showing income vs expense over the last 6 months. Income line is teal, expense is red.
+- **Spending Breakdown(categorical visualization)** — Doughnut chart with category-wise expenditure. Each segment shows its percentage of total spend in the legend.
 - **Action Cards** — Three summary cards showing Total Income, Total Expenses, and Savings.
   - Savings card color is **teal/blue** when income exceeds expenses (positive savings)
   - Savings card color turns **red/pink** when expenses exceed income (negative savings)
   - The negative sign is explicitly displayed: e.g. `−₹12,000`
 
-### Transactions Page ![Dashboard Interface Preview](src/assets/TransactionLight.png)
+### Transactions Page ![Transaction Interface Preview](src/assets/TransactionLight.png)
 
 - Paginated DataGrid showing all transactions (ID, date, amount, category, type)
 - **Search** — filter rows by any field using the built-in toolbar search
@@ -195,13 +195,13 @@ Role persists across refreshes via Redux + localStorage.
 - **Edit Transaction** (Admin) — inline dropdown selects for category and type directly in the table row
 - **Delete Transaction** (Admin) — trash icon per row opens a confirm dialog showing a full preview of the transaction before deletion
 
-### Insights Page ![Dashboard Interface Preview](src/assets/InsightPage.png)
+### Insights Page ![Insights Interface Preview](src/assets/InsightPage.png)
 
 - **Monthly Comparison Bar Chart** — grouped bar chart comparing spending across 6 categories over the last 6 months
 - **Category Breakdown** — animated horizontal progress bars showing each category's share of total spending, sorted from highest to lowest
 - **Insight Cards:**
   - 🏆 **Highest Spending Category** — derived from the category with the largest total value
-  - 📈 **Month-over-Month** — percentage change in total spending vs the previous month. Color is green for decrease, amber for slight increase, red for large increase
+  - 📈 **Month-over-Month(Useful observation from the data)** — percentage change in total spending vs the previous month. Color is green for decrease, amber for slight increase, red for large increase
 
 ### Global Features
 
@@ -219,7 +219,7 @@ Role persists across refreshes via Redux + localStorage.
 
 **CSS variables for MUI theming** — MUI components render into portals outside the React component tree, so Tailwind `dark:` variants don't reach them. CSS custom properties (`var(--accent)`, `var(--surface)`) that flip with the `.dark` class solve this cleanly without needing a MUI `ThemeProvider`.
 
-**`sampleData.js` as a single data source** — in a production system, this file would be replaced by API call results. The rest of the app architecture (state management, derived computations in `features.js`, component data flow) remains unchanged.
+**`sampleData.js` as a single data source** — in a production system, this file would be replaced by API call results. The rest of the app architecture (state management, derived computations/calculation functions in `features.js`, component data flow) remains unchanged.
 
 **Modular styles** — `styles.jsx` exports reusable MUI `sx` objects and Tailwind class strings, keeping component files clean and ensuring consistent styling across the app.
 
