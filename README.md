@@ -194,7 +194,7 @@ Role persists across refreshes via Redux + localStorage.
 - **Edit Transaction** (Admin) — inline dropdown selects for category and type directly in the table row
 - **Delete Transaction** (Admin) — trash icon per row opens a confirm dialog showing a full preview of the transaction before deletion
 
-### Insights Page
+### Insights Page ![Dashboard Interface Preview](src/assets/InsightPage.png)
 
 - **Monthly Comparison Bar Chart** — grouped bar chart comparing spending across 6 categories over the last 6 months
 - **Category Breakdown** — animated horizontal progress bars showing each category's share of total spending, sorted from highest to lowest
